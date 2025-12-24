@@ -13,7 +13,7 @@ terraform {
 
   backend "s3" {
     key = "terraform/backend/scp.tfstate"
-    bucket = "terraform-state-bucket-dops*"
+    bucket = "terraform-state-bucket-dops1"
     encrypt = true
   }
 }
