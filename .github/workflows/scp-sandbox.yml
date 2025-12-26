@@ -26,6 +26,11 @@ jobs:
       - name: terraform init
         run: terraform init
       - name: terraform plan
-        run: terraform plan
+        run: terraform plan -out=tfplan
+      - name: Enforce module-only usage
+        uses: open-policy-agent/conftest-action@v1
+        with:
+          policy: policy/
+          files: tfplan.json
       - name: terraform apply
         run: terraform apply --auto-approve
