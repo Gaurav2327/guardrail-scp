@@ -29,10 +29,12 @@ jobs:
         run: | 
           terraform plan -out=tfplan
           terraform show -json tfplan > tfplan.json
-      - name: Enforce module-only usage
-        uses: open-policy-agent/conftest-action@v1
-        with:
-          policy: policy/
-          files: tfplan.json
+      - name: Install Conftest
+        run: |
+          curl -L https://github.com/open-policy-agent/conftest/releases/download/v0.55.0/conftest_0.55.0_Linux_x86_64.tar.gz | tar xz
+          sudo mv conftest /usr/local/bin/conftest
+      - name: Enforce Terraform module policy
+        run: |
+          conftest test tfplan.json --policy policy/
       - name: terraform apply
         run: terraform apply --auto-approve
