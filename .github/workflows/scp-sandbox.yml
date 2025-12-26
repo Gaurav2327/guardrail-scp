@@ -26,7 +26,9 @@ jobs:
       - name: terraform init
         run: terraform init
       - name: terraform plan
-        run: terraform plan -out=tfplan
+        run: | 
+          terraform plan -out=tfplan
+          terraform show -json tfplan > tfplan.json
       - name: Enforce module-only usage
         uses: open-policy-agent/conftest-action@v1
         with:
